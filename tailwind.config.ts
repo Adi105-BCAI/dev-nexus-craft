@@ -61,7 +61,41 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				editor: {
+					background: 'hsl(var(--editor-background))',
+					'line-numbers': 'hsl(var(--editor-line-numbers))',
+					selection: 'hsl(var(--editor-selection))',
+					'current-line': 'hsl(var(--editor-current-line))'
+				},
+				tab: {
+					background: 'hsl(var(--tab-background))',
+					active: 'hsl(var(--tab-active))',
+					border: 'hsl(var(--tab-border))'
+				},
+				terminal: {
+					background: 'hsl(var(--terminal-background))',
+					foreground: 'hsl(var(--terminal-foreground))',
+					success: 'hsl(var(--terminal-success))',
+					error: 'hsl(var(--terminal-error))',
+					warning: 'hsl(var(--terminal-warning))'
+				},
+				status: {
+					background: 'hsl(var(--status-background))',
+					foreground: 'hsl(var(--status-foreground))'
+				},
+				assistant: {
+					background: 'hsl(var(--assistant-background))',
+					message: 'hsl(var(--assistant-message))',
+					'user-message': 'hsl(var(--assistant-user-message))'
 				}
+			},
+			boxShadow: {
+				panel: 'var(--shadow-panel)',
+				elevated: 'var(--shadow-elevated)'
+			},
+			fontFamily: {
+				mono: ['JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', 'monospace']
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
