@@ -88,11 +88,43 @@ export default {
 					background: 'hsl(var(--assistant-background))',
 					message: 'hsl(var(--assistant-message))',
 					'user-message': 'hsl(var(--assistant-user-message))'
+				},
+				lang: {
+					javascript: 'hsl(var(--lang-javascript))',
+					typescript: 'hsl(var(--lang-typescript))',
+					python: 'hsl(var(--lang-python))',
+					react: 'hsl(var(--lang-react))',
+					html: 'hsl(var(--lang-html))',
+					css: 'hsl(var(--lang-css))',
+					json: 'hsl(var(--lang-json))',
+					markdown: 'hsl(var(--lang-markdown))',
+					git: 'hsl(var(--lang-git))',
+					docker: 'hsl(var(--lang-docker))',
+					vue: 'hsl(var(--lang-vue))',
+					angular: 'hsl(var(--lang-angular))',
+					svelte: 'hsl(var(--lang-svelte))',
+					rust: 'hsl(var(--lang-rust))',
+					go: 'hsl(var(--lang-go))',
+					java: 'hsl(var(--lang-java))',
+					csharp: 'hsl(var(--lang-csharp))',
+					php: 'hsl(var(--lang-php))',
+					ruby: 'hsl(var(--lang-ruby))',
+					kotlin: 'hsl(var(--lang-kotlin))',
+					swift: 'hsl(var(--lang-swift))'
 				}
 			},
 			boxShadow: {
 				panel: 'var(--shadow-panel)',
-				elevated: 'var(--shadow-elevated)'
+				elevated: 'var(--shadow-elevated)',
+				glow: 'var(--shadow-glow)'
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-accent': 'var(--gradient-accent)'
+			},
+			transitionTimingFunction: {
+				'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+				'quick': 'ease'
 			},
 			fontFamily: {
 				mono: ['JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', 'monospace']

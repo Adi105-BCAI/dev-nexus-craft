@@ -73,9 +73,41 @@ All colors MUST be HSL.
     --assistant-message: 220 13% 14%;
     --assistant-user-message: 217 91% 60% / 0.1;
     
+    /* Language Colors */
+    --lang-javascript: 247 83% 64%;
+    --lang-typescript: 217 100% 50%;
+    --lang-python: 214 100% 59%;
+    --lang-react: 193 95% 68%;
+    --lang-html: 14 100% 57%;
+    --lang-css: 204 70% 53%;
+    --lang-json: 48 100% 67%;
+    --lang-markdown: 0 0% 50%;
+    --lang-git: 14 100% 57%;
+    --lang-docker: 211 100% 50%;
+    --lang-vue: 153 47% 49%;
+    --lang-angular: 0 100% 67%;
+    --lang-svelte: 15 100% 50%;
+    --lang-rust: 27 100% 48%;
+    --lang-go: 203 100% 50%;
+    --lang-java: 30 100% 40%;
+    --lang-csharp: 259 100% 65%;
+    --lang-php: 225 100% 60%;
+    --lang-ruby: 0 100% 50%;
+    --lang-kotlin: 259 100% 65%;
+    --lang-swift: 24 100% 50%;
+
     /* Shadows */
     --shadow-panel: 0 4px 12px 0 rgb(0 0 0 / 0.15);
     --shadow-elevated: 0 8px 25px 0 rgb(0 0 0 / 0.25);
+    --shadow-glow: 0 0 20px hsl(var(--primary) / 0.3);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--secondary)));
+    
+    /* Animation Timing */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-quick: all 0.15s ease;
   }
 
   .dark {
@@ -166,5 +198,36 @@ All colors MUST be HSL.
   /* Selection styling */
   ::selection {
     background: hsl(var(--editor-selection));
+  }
+
+  /* File Explorer Enhancements */
+  .file-icon-glow {
+    filter: drop-shadow(0 0 4px hsl(var(--primary) / 0.3));
+    transition: var(--transition-smooth);
+  }
+
+  .file-icon-glow:hover {
+    filter: drop-shadow(0 0 8px hsl(var(--primary) / 0.5));
+    transform: scale(1.05);
+  }
+
+  /* Language Badge Styles */
+  .language-badge {
+    transition: var(--transition-smooth);
+  }
+
+  .language-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Breadcrumb Animation */
+  .breadcrumb-item {
+    transition: var(--transition-smooth);
+  }
+
+  .breadcrumb-item:hover {
+    color: hsl(var(--primary));
+    transform: translateY(-1px);
   }
 }
