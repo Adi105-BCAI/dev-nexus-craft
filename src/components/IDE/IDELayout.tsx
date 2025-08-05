@@ -7,6 +7,7 @@ import { PanelContainer } from "./PanelContainer";
 import { CodeEditor } from "./CodeEditor";
 import { AIAssistant } from "./AIAssistant";
 import { Terminal } from "./Terminal";
+import { StatusBar } from "./StatusBar";
 
 // Mock data
 const initialTabs = [
@@ -450,6 +451,15 @@ export function IDELayout() {
           onSendMessage={handleSendMessage}
         />
       </div>
+      
+      <StatusBar
+        currentFile={selectedFile}
+        language={currentFile?.language}
+        line={12}
+        column={45}
+        gitBranch="main"
+        hasWarnings={true}
+      />
     </div>
   );
 }
