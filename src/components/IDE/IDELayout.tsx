@@ -1,7 +1,9 @@
 import { useState, useCallback } from "react";
 import { MenuBar } from "./MenuBar";
 import { TopBar } from "./TopBar";
+import { ActivityBar } from "./ActivityBar";
 import { FileExplorer } from "./FileExplorer";
+import { PanelContainer } from "./PanelContainer";
 import { CodeEditor } from "./CodeEditor";
 import { AIAssistant } from "./AIAssistant";
 import { Terminal } from "./Terminal";
@@ -291,6 +293,7 @@ export function IDELayout() {
   const [selectedFile, setSelectedFile] = useState("/src/main.py");
   const [messages, setMessages] = useState(initialMessages);
   const [terminalLines, setTerminalLines] = useState(initialTerminalLines);
+  const [activePanel, setActivePanel] = useState("explorer");
 
   const handleTabClick = useCallback((tabId: string) => {
     setTabs(prev => prev.map(tab => ({
@@ -383,6 +386,10 @@ export function IDELayout() {
     }, 100);
   }, []);
 
+  const handlePanelChange = useCallback((panelId: string) => {
+    setActivePanel(panelId);
+  }, []);
+
   const activeTab = tabs.find(tab => tab.isActive);
   const currentFile = selectedFile && fileContents[selectedFile];
 
@@ -396,11 +403,25 @@ export function IDELayout() {
       />
       
       <div className="flex-1 flex overflow-hidden">
-        <FileExplorer
-          files={fileStructure}
-          selectedFile={selectedFile}
-          onFileSelect={handleFileSelect}
+        <ActivityBar 
+          activePanel={activePanel}
+          onPanelChange={handlePanelChange}
         />
+        
+        {activePanel === "explorer" ? (
+          <FileExplorer
+            files={fileStructure}
+            selectedFile={selectedFile}
+            onFileSelect={handleFileSelect}
+          />
+        ) : (
+          <PanelContainer
+            activePanel={activePanel}
+            files={fileStructure}
+            selectedFile={selectedFile}
+            onFileSelect={handleFileSelect}
+          />
+        )}
         
         <div className="flex-1 flex flex-col overflow-hidden">
           {currentFile ? (
