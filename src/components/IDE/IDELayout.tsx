@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { MenuBar } from "./MenuBar";
 import { TopBar } from "./TopBar";
 import { FileExplorer } from "./FileExplorer";
 import { CodeEditor } from "./CodeEditor";
@@ -387,6 +388,7 @@ export function IDELayout() {
 
   return (
     <div className="h-screen bg-background text-foreground flex flex-col overflow-hidden">
+      <MenuBar />
       <TopBar 
         tabs={tabs}
         onTabClick={handleTabClick}
