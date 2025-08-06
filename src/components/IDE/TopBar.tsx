@@ -18,77 +18,39 @@ interface TopBarProps {
 
 export function TopBar({ tabs, onTabClick, onTabClose }: TopBarProps) {
   return (
-    <div className="h-12 bg-card border-b border-border flex items-center justify-between select-none">
-      {/* Left: App Title */}
-      <div className="flex items-center px-4">
-        <h1 className="text-sm font-semibold text-foreground">Modern IDE</h1>
-      </div>
-
-      {/* Center: Tabs */}
-      <div className="flex-1 flex items-center min-w-0">
-        <div className="flex items-center overflow-x-auto scrollbar-none">
-          {tabs.map((tab) => (
-            <div
-              key={tab.id}
-              className={`
-                flex items-center gap-2 px-3 h-12 border-r border-border cursor-pointer
-                hover:bg-accent transition-colors min-w-0 group
-                ${tab.isActive ? 'bg-tab-active' : 'bg-tab-background'}
-              `}
-              onClick={() => onTabClick(tab.id)}
+    <div className="h-9 bg-tabs-background border-b border-tabs-border flex items-center">
+      <div className="flex-1 flex items-center overflow-x-auto">
+        {tabs.map((tab) => (
+          <div
+            key={tab.id}
+            className={`
+              flex items-center px-3 py-1.5 text-xs border-r border-tabs-border cursor-pointer 
+              hover:bg-tabs-active-background/60 transition-all duration-200 group relative
+              ${tab.isActive 
+                ? 'bg-tabs-active-background text-tabs-active-foreground shadow-sm' 
+                : 'text-tabs-foreground hover:text-tabs-active-foreground'
+              }
+            `}
+            onClick={() => onTabClick(tab.id)}
+          >
+            <span className="min-w-0 truncate font-medium">{tab.name}</span>
+            {tab.isDirty && (
+              <span className="ml-2 w-1.5 h-1.5 bg-orange-400 rounded-full" />
+            )}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onTabClose(tab.id);
+              }}
+              className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent/60 rounded p-0.5"
             >
-              <span className="text-xs text-muted-foreground truncate">
-                {tab.name}
-                {tab.isDirty && <span className="text-primary ml-1">●</span>}
-              </span>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onTabClose(tab.id);
-                }}
-              >
-                <X className="h-3 w-3" />
-              </Button>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Right: Status Icons + Search + Window Controls */}
-      <div className="flex items-center gap-2 px-4">
-        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-          <GitBranch className="h-4 w-4" />
-        </Button>
-        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-          <RotateCcw className="h-4 w-4" />
-        </Button>
-        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-          <Settings className="h-4 w-4" />
-        </Button>
-        
-        <div className="relative">
-          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-muted-foreground" />
-          <Input
-            placeholder="Search..."
-            className="pl-7 h-8 w-48 bg-input border-border"
-          />
-        </div>
-
-        {/* Window Controls */}
-        <div className="flex items-center ml-2">
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-muted">
-            <Minimize2 className="h-3 w-3" />
-          </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-muted">
-            <Square className="h-3 w-3" />
-          </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-destructive hover:text-destructive-foreground">
-            <X className="h-3 w-3" />
-          </Button>
-        </div>
+              <X className="w-3 h-3" />
+            </button>
+            {tab.isActive && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"></div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

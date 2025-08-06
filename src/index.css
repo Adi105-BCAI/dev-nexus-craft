@@ -9,69 +9,74 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* IDE Dark Theme Colors */
-    --background: 220 13% 8%;
+    --background: 220 13% 18%;
     --foreground: 220 14% 96%;
     
-    --card: 220 13% 10%;
+    --card: 220 13% 16%;
     --card-foreground: 220 14% 96%;
     
-    --popover: 220 13% 10%;
+    --popover: 220 13% 16%;
     --popover-foreground: 220 14% 96%;
     
     --primary: 217 91% 60%;
-    --primary-foreground: 220 13% 8%;
+    --primary-foreground: 220 14% 96%;
     
     --secondary: 220 13% 14%;
     --secondary-foreground: 220 14% 96%;
     
-    --muted: 220 13% 12%;
-    --muted-foreground: 220 9% 55%;
+    --muted: 220 13% 14%;
+    --muted-foreground: 220 9% 46%;
     
-    --accent: 220 13% 16%;
+    --accent: 220 13% 20%;
     --accent-foreground: 220 14% 96%;
     
     --destructive: 0 84% 60%;
     --destructive-foreground: 220 14% 96%;
     
-    --border: 220 13% 18%;
-    --input: 220 13% 12%;
+    --border: 220 13% 24%;
+    --input: 220 13% 20%;
     --ring: 217 91% 60%;
     
     --radius: 0.375rem;
     
     /* IDE Specific Colors */
-    --editor-background: 220 13% 9%;
-    --editor-line-numbers: 220 9% 40%;
+    --editor-background: 220 13% 18%;
+    --editor-foreground: 220 14% 93%;
+    --editor-line-number: 220 9% 50%;
     --editor-selection: 217 91% 60% / 0.2;
-    --editor-current-line: 220 13% 11%;
+    --editor-cursor: 217 91% 60%;
+    --editor-gutter: 220 13% 16%;
     
-    --tab-background: 220 13% 12%;
-    --tab-active: 220 13% 16%;
-    --tab-border: 220 13% 20%;
+    /* Tabs */
+    --tabs-background: 220 13% 16%;
+    --tabs-foreground: 220 9% 70%;
+    --tabs-active-background: 220 13% 18%;
+    --tabs-active-foreground: 220 14% 93%;
+    --tabs-border: 220 13% 24%;
     
-    --sidebar-background: 220 13% 10%;
-    --sidebar-foreground: 220 14% 96%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 220 13% 8%;
-    --sidebar-accent: 220 13% 14%;
-    --sidebar-accent-foreground: 220 14% 96%;
-    --sidebar-border: 220 13% 18%;
-    --sidebar-ring: 217 91% 60%;
+    /* Sidebar */
+    --sidebar-background: 220 13% 16%;
+    --sidebar-foreground: 220 14% 90%;
+    --sidebar-border: 220 13% 24%;
     
-    --terminal-background: 220 13% 8%;
-    --terminal-foreground: 220 14% 96%;
-    --terminal-success: 142 71% 45%;
+    /* Terminal */
+    --terminal-background: 220 13% 14%;
+    --terminal-foreground: 220 14% 90%;
     --terminal-error: 0 84% 60%;
-    --terminal-warning: 48 96% 53%;
+    --terminal-success: 120 65% 55%;
+    --terminal-warning: 45 90% 60%;
+    --terminal-info: 200 80% 65%;
     
     /* Status Bar */
     --status-background: 220 13% 7%;
     --status-foreground: 220 14% 96%;
     
     /* AI Assistant */
-    --assistant-background: 220 13% 10%;
-    --assistant-message: 220 13% 14%;
-    --assistant-user-message: 217 91% 60% / 0.1;
+    --ai-background: 220 13% 16%;
+    --ai-foreground: 220 14% 90%;
+    --ai-message-user: 217 91% 60% / 0.12;
+    --ai-message-assistant: 220 13% 22% / 0.8;
+    --ai-border: 220 13% 24%;
     
     /* Language Colors */
     --lang-javascript: 247 83% 64%;

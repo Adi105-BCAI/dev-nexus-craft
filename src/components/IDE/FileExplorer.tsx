@@ -98,17 +98,17 @@ export function FileExplorer({ files, selectedFile, onFileSelect }: FileExplorer
     const isExpanded = expandedFolders.has(node.id);
     const isSelected = selectedFile === node.path;
     const metadata = fileMetadata[node.path];
-    const gitStatusColor = getGitStatusColor(metadata?.gitStatus);
+    const gitStatus = metadata?.gitStatus;
+    const paddingLeft = `${depth * 16 + 8}px`;
 
     return (
       <div key={node.id}>
         <div
           className={`
-            group flex items-center gap-2 px-2 py-1.5 cursor-pointer rounded-md text-sm
-            hover:bg-sidebar-accent transition-smooth
-            ${isSelected ? 'bg-sidebar-accent text-sidebar-accent-foreground shadow-sm' : 'text-sidebar-foreground'}
+            flex items-center py-0.5 px-2 text-xs cursor-pointer hover:bg-accent/60 rounded transition-colors group
+            ${isSelected ? 'bg-accent text-accent-foreground' : ''}
           `}
-          style={{ paddingLeft: `${8 + depth * 16}px` }}
+          style={{ paddingLeft }}
           onClick={() => {
             if (node.type === 'folder') {
               toggleFolder(node.id);
@@ -117,48 +117,41 @@ export function FileExplorer({ files, selectedFile, onFileSelect }: FileExplorer
             }
           }}
         >
-          <div className="flex items-center gap-2 flex-1 min-w-0">
-            {node.type === 'folder' && (
-              <div className="flex items-center justify-center w-4 h-4">
-                {isExpanded ? (
-                  <ChevronDown className="h-3 w-3 transition-transform duration-200" />
-                ) : (
-                  <ChevronRight className="h-3 w-3 transition-transform duration-200" />
-                )}
-              </div>
-            )}
-            {node.type === 'file' && <div className="w-4" />}
-            
-            {node.type === 'folder' ? (
-              <>
-                {isExpanded ? (
-                  <FolderOpen className="h-4 w-4 text-amber-400" />
-                ) : (
-                  <Folder className="h-4 w-4 text-amber-400" />
-                )}
-              </>
-            ) : (
-              <LanguageIcon fileName={node.name} showGlow={isSelected} />
-            )}
-            
-            <span className={`truncate flex-1 ${gitStatusColor}`}>
-              {node.name}
-            </span>
-            
-            {metadata?.gitStatus && (
-              <div className={`w-2 h-2 rounded-full ${getGitStatusColor(metadata.gitStatus)} bg-current opacity-60 group-hover:opacity-100 transition-opacity`} />
-            )}
-          </div>
-          
-          {showDetails && node.type === 'file' && metadata && (
-            <div className="text-xs text-muted-foreground">
-              {Math.round((metadata.size || 0) / 1024)}KB
+          {/* Folder icon or chevron */}
+          {node.type === 'folder' ? (
+            <div className="flex items-center">
+              {isExpanded ? (
+                <ChevronDown className="w-3 h-3 mr-1 text-muted-foreground group-hover:text-foreground transition-colors" />
+              ) : (
+                <ChevronRight className="w-3 h-3 mr-1 text-muted-foreground group-hover:text-foreground transition-colors" />
+              )}
+              <FolderOpen className="w-3.5 h-3.5 mr-2 text-blue-400" />
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <div className="w-4 mr-1" /> {/* Spacer for alignment */}
+              <LanguageIcon fileName={node.name} className="w-3.5 h-3.5 mr-2" />
             </div>
           )}
+
+          {/* File/folder name */}
+          <span className="flex-1 truncate text-sidebar-foreground group-hover:text-foreground transition-colors">{node.name}</span>
+
+          {/* Git status */}
+          {gitStatus && (
+            <span className="ml-2 text-xs text-orange-400 font-semibold bg-orange-400/10 px-1 rounded">
+              {gitStatus === 'modified' ? 'M' : gitStatus === 'added' ? 'U' : gitStatus}
+            </span>
+          )}
         </div>
-        
-        {node.type === 'folder' && isExpanded && node.children?.map(child => 
-          renderFileNode(child, depth + 1)
+
+        {/* Render children if folder is expanded */}
+        {node.type === 'folder' && isExpanded && node.children && (
+          <div>
+            {node.children.map((child) => (
+              renderFileNode(child, depth + 1)
+            ))}
+          </div>
         )}
       </div>
     );
@@ -167,62 +160,36 @@ export function FileExplorer({ files, selectedFile, onFileSelect }: FileExplorer
   const displayFiles = filteredFiles(files);
 
   return (
-    <div className="w-64 bg-sidebar border-r border-sidebar-border h-full flex flex-col">
+    <div className="w-60 bg-sidebar-background border-r border-sidebar-border h-full flex flex-col">
       {/* Header */}
-      <div className="p-3 border-b border-sidebar-border">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-sidebar-foreground">Explorer</h2>
-          <div className="flex gap-1">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-6 w-6 p-0"
-              onClick={() => setShowDetails(!showDetails)}
-              title="Toggle details"
-            >
-              <MoreHorizontal className="h-3 w-3" />
-            </Button>
-            <Button variant="ghost" size="sm" className="h-6 w-6 p-0" title="New file">
-              <Plus className="h-3 w-3" />
-            </Button>
-            <Button variant="ghost" size="sm" className="h-6 w-6 p-0" title="Git status">
-              <GitBranch className="h-3 w-3" />
-            </Button>
-          </div>
-        </div>
+      <div className="px-3 py-2 border-b border-border">
+        <h2 className="text-xs font-medium text-sidebar-foreground flex items-center gap-2 uppercase tracking-wide">
+          <FolderOpen className="w-3.5 h-3.5" />
+          Explorer
+        </h2>
         
-        {/* Search */}
-        <div className="relative">
-          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+        {/* Search Input */}
+        <div className="mt-2 relative">
+          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-muted-foreground" />
           <Input
             placeholder="Search files..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-7 h-7 text-xs bg-sidebar-accent/50 border-sidebar-border"
+            className="pl-7 h-7 text-xs bg-background/50 border border-border rounded focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50"
           />
         </div>
       </div>
       
       {/* File Tree */}
-      <div className="flex-1 overflow-y-auto p-2">
-        <div className="mb-2">
-          <div className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wider px-2 py-1 flex items-center justify-between">
-            <span>MY PROJECT</span>
-            {searchQuery && (
-              <span className="text-xs normal-case text-muted-foreground">
-                {displayFiles.reduce((count, file) => count + (file.children?.length || 0) + 1, 0)} items
-              </span>
-            )}
-          </div>
+      <div className="flex-1 overflow-y-auto px-1 py-1">
+        {displayFiles.map(file => renderFileNode(file))}
+      </div>
+
+      {/* Stats */}
+      <div className="px-3 py-2 border-t border-border">
+        <div className="text-xs text-muted-foreground">
+          {displayFiles.reduce((count, file) => count + (file.children?.length || 0) + 1, 0)} files
         </div>
-        
-        {displayFiles.length > 0 ? (
-          displayFiles.map(file => renderFileNode(file))
-        ) : (
-          <div className="text-xs text-muted-foreground text-center py-4">
-            {searchQuery ? 'No files found' : 'No files'}
-          </div>
-        )}
       </div>
     </div>
   );

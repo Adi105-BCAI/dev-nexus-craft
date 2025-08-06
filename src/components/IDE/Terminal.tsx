@@ -31,15 +31,30 @@ export function Terminal({ lines, onCommand }: TerminalProps) {
   const getLineColor = (type: TerminalLine['type']) => {
     switch (type) {
       case 'command':
-        return 'text-terminal-foreground';
+        return 'text-terminal-foreground font-medium';
       case 'error':
         return 'text-terminal-error';
       case 'success':
         return 'text-terminal-success';
       case 'output':
-        return 'text-terminal-foreground/80';
+        return 'text-terminal-foreground/90';
       default:
         return 'text-terminal-foreground';
+    }
+  };
+
+  const getLinePrefix = (type: TerminalLine['type']) => {
+    switch (type) {
+      case 'command':
+        return '$ ';
+      case 'error':
+        return '❌ ';
+      case 'success':
+        return '✅ ';
+      case 'output':
+        return '';
+      default:
+        return '';
     }
   };
 
@@ -76,36 +91,30 @@ export function Terminal({ lines, onCommand }: TerminalProps) {
       </div>
 
       {/* Terminal Content */}
-      <div className="flex-1 overflow-y-auto p-4 font-mono text-sm">
+      <div className="flex-1 overflow-y-auto px-4 py-3 font-mono text-sm">
         <div className="space-y-1">
           {lines.map((line) => (
-            <div key={line.id} className={`${getLineColor(line.type)} leading-5`}>
-              {line.type === 'command' && (
-                <span className="text-primary mr-2">$</span>
-              )}
-              {line.type === 'error' && (
-                <span className="text-terminal-error mr-2">✗</span>
-              )}
-              {line.type === 'success' && (
-                <span className="text-terminal-success mr-2">✓</span>
-              )}
-              <span>{line.content}</span>
+            <div key={line.id} className={`${getLineColor(line.type)} leading-relaxed flex items-start`}>
+              <span className="text-primary mr-2 select-none min-w-fit">
+                {getLinePrefix(line.type)}
+              </span>
+              <span className="flex-1">{line.content}</span>
             </div>
           ))}
           
           {/* Current Input Line */}
-          <div className="flex items-center text-terminal-foreground">
-            <span className="text-primary mr-2">$</span>
+          <div className="flex items-center text-terminal-foreground mt-2">
+            <span className="text-primary mr-2 select-none">$ </span>
             <input
               type="text"
               value={currentCommand}
               onChange={(e) => setCurrentCommand(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="flex-1 bg-transparent border-none outline-none text-terminal-foreground"
+              className="flex-1 bg-transparent border-none outline-none text-terminal-foreground placeholder:text-terminal-foreground/50"
               placeholder="Enter command..."
               autoFocus
             />
-            <span className="w-2 h-5 bg-primary animate-pulse ml-1" />
+            <span className="w-1.5 h-4 bg-primary animate-pulse ml-1 rounded-sm" />
           </div>
         </div>
       </div>

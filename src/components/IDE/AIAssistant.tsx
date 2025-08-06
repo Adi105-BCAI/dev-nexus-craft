@@ -37,19 +37,19 @@ export function AIAssistant({ messages, onSendMessage }: AIAssistantProps) {
   };
 
   return (
-    <div className="w-80 bg-assistant-background border-l border-border flex flex-col h-full">
+    <div className="w-80 bg-ai-background border-l border-ai-border flex flex-col h-full">
       {/* Header */}
-      <div className="p-4 border-b border-border">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-foreground">AI Assistant</h2>
+      <div className="px-3 py-2 border-b border-ai-border">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-xs font-medium text-ai-foreground uppercase tracking-wide">AI Assistant</h2>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-7 text-xs">
+              <Button variant="outline" size="sm" className="h-6 text-xs">
                 {selectedModel}
                 <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-popover">
+            <DropdownMenuContent align="end" className="bg-popover border-ai-border">
               <DropdownMenuItem onClick={() => setSelectedModel("Claude 3.5 Sonnet")}>
                 Claude 3.5 Sonnet
               </DropdownMenuItem>
@@ -63,12 +63,12 @@ export function AIAssistant({ messages, onSendMessage }: AIAssistantProps) {
           </DropdownMenu>
         </div>
         
-        <div className="flex gap-2">
-          <Button variant="secondary" size="sm" className="h-7 text-xs">
+        <div className="flex gap-1">
+          <Button variant="secondary" size="sm" className="h-6 text-xs px-2">
             <Bot className="mr-1 h-3 w-3" />
             Builder
           </Button>
-          <Button variant="outline" size="sm" className="h-7 text-xs">
+          <Button variant="outline" size="sm" className="h-6 text-xs px-2">
             <Bot className="mr-1 h-3 w-3" />
             Validator
           </Button>
@@ -76,72 +76,72 @@ export function AIAssistant({ messages, onSendMessage }: AIAssistantProps) {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-3 space-y-3">
         {messages.map((message) => (
           <div key={message.id} className="flex gap-3">
-            <Avatar className="h-8 w-8 flex-shrink-0">
-              <AvatarFallback className="bg-muted">
-                {message.role === 'user' ? (
-                  <User className="h-4 w-4" />
+            <Avatar className="w-7 h-7 flex-shrink-0 mt-0.5">
+              <AvatarFallback className="text-xs bg-accent text-accent-foreground">
+                {message.role === 'assistant' ? (
+                  <Bot className="w-3.5 h-3.5" />
                 ) : (
-                  <Bot className="h-4 w-4" />
+                  <User className="w-3.5 h-3.5" />
                 )}
               </AvatarFallback>
             </Avatar>
             
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
+            <div className="flex-1 space-y-1 min-w-0">
+              <div className="flex items-center gap-2">
                 <span className="text-xs font-medium text-foreground">
-                  {message.role === 'user' ? 'You' : message.agent || 'Assistant'}
+                  {message.role === 'assistant' 
+                    ? (message.agent || 'Assistant')
+                    : 'You'
+                  }
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  {message.timestamp.toLocaleTimeString()}
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
               
               <div className={`
-                rounded-lg p-3 text-sm
-                ${message.role === 'user' 
-                  ? 'bg-assistant-user-message border border-primary/20' 
-                  : 'bg-assistant-message border border-border'
+                p-2.5 rounded-lg text-xs leading-relaxed border
+                ${message.role === 'assistant' 
+                  ? 'bg-ai-message-assistant text-ai-foreground border-ai-border/50'
+                  : 'bg-ai-message-user text-foreground border-primary/20'
                 }
               `}>
-                <pre className="whitespace-pre-wrap font-sans text-foreground">
+                <div className="whitespace-pre-wrap break-words">
                   {message.content}
-                </pre>
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Input */}
-      <div className="p-4 border-t border-border">
+      {/* Input Area */}
+      <div className="border-t border-ai-border p-3">
         <div className="flex gap-2">
           <div className="flex-1 relative">
-            <Input
+            <input
+              type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Ask anything..."
-              className="pr-20 bg-input border-border"
+              className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 text-xs"
             />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
-              <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                <Mic className="h-3 w-3" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                <Smile className="h-3 w-3" />
-              </Button>
-            </div>
           </div>
-          <Button 
-            onClick={handleSend}
-            disabled={!inputValue.trim()}
-            size="sm"
-            className="h-9"
-          >
-            <Send className="h-4 w-4" />
+          
+          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-accent/60">
+            <Mic className="w-3.5 h-3.5" />
+          </Button>
+          
+          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-accent/60">
+            <Smile className="w-3.5 h-3.5" />
+          </Button>
+          
+          <Button onClick={handleSend} size="sm" className="h-8 px-3 text-xs">
+            <Send className="w-3.5 h-3.5" />
           </Button>
         </div>
       </div>

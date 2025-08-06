@@ -109,15 +109,11 @@ export function CodeEditor({ content, language, fileName }: CodeEditorProps) {
       {/* Enhanced Editor Content */}
       <div className="flex-1 overflow-auto">
         <div className="flex h-full">
-          {/* Line Numbers */}
+          {/* Line numbers */}
           {showLineNumbers && (
-            <div className="bg-editor-background border-r border-border px-3 py-4 select-none">
+            <div className="absolute left-0 top-0 w-14 bg-editor-gutter border-r border-border text-editor-line-number text-xs font-mono select-none py-4">
               {lines.map((_, index) => (
-                <div 
-                  key={index} 
-                  className="text-editor-line-numbers text-xs leading-6 text-right hover:text-foreground transition-colors"
-                  style={{ minWidth: '3ch' }}
-                >
+                <div key={index + 1} className="text-right pr-4 leading-6 h-6">
                   {index + 1}
                 </div>
               ))}
@@ -125,22 +121,25 @@ export function CodeEditor({ content, language, fileName }: CodeEditorProps) {
           )}
 
           {/* Code Content */}
-          <div className={`flex-1 p-4 font-mono text-sm leading-6 text-foreground ${wordWrap ? '' : 'overflow-x-auto'}`}>
+          <div 
+            className={`
+              font-mono text-sm leading-6 whitespace-pre-wrap py-4 min-h-full
+              ${showLineNumbers ? 'ml-14 pl-4 pr-4' : 'px-4'}
+              ${wordWrap ? 'break-words' : 'overflow-x-auto'}
+            `}
+            style={{ 
+              color: 'hsl(var(--editor-foreground))',
+              backgroundColor: 'hsl(var(--editor-background))'
+            }}
+          >
             {lines.map((line, index) => (
-              <div 
-                key={index}
-                className={`
-                  min-h-6 hover:bg-editor-current-line px-2 -mx-2 rounded-sm transition-colors
-                  ${wordWrap ? 'whitespace-pre-wrap break-words' : 'whitespace-pre'}
-                `}
-                dangerouslySetInnerHTML={{ 
-                  __html: syntaxHighlight(line, index + 1) || '&nbsp;' 
-                }}
-              />
+              <div key={index} className="h-6" dangerouslySetInnerHTML={{ 
+                __html: syntaxHighlight(line, index + 1) 
+              }} />
             ))}
             
-            {/* Enhanced Cursor */}
-            <div className="w-0.5 h-6 bg-primary animate-pulse shadow-glow" />
+            {/* Mock cursor */}
+            <span className="inline-block w-0.5 h-6 bg-editor-cursor animate-pulse ml-1" />
           </div>
         </div>
       </div>
