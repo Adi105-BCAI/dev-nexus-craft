@@ -28,26 +28,6 @@ export function CodeEditor({ content, language, fileName }: CodeEditorProps) {
     starred: true
   };
   
-  const syntaxHighlight = (line: string, lineNumber: number) => {
-    if (language === 'python') {
-      return line
-        .replace(/(def|class|if|else|elif|for|while|try|except|import|from|return|yield|with|as)\b/g, '<span class="text-purple-400">$1</span>')
-        .replace(/(True|False|None)\b/g, '<span class="text-blue-400">$1</span>')
-        .replace(/(['"])(.*?)\1/g, '<span class="text-green-400">$1$2$1</span>')
-        .replace(/(#.*$)/g, '<span class="text-gray-500">$1</span>')
-        .replace(/(\d+)/g, '<span class="text-yellow-400">$1</span>');
-    }
-    
-    if (language === 'markdown') {
-      return line
-        .replace(/^(#{1,6})\s(.*)$/g, '<span class="text-blue-400">$1</span> <span class="font-bold text-blue-300">$2</span>')
-        .replace(/(\*\*)(.*?)\1/g, '<span class="font-bold">$2</span>')
-        .replace(/(\*)(.*?)\1/g, '<span class="italic">$2</span>')
-        .replace(/(`)(.*?)\1/g, '<span class="bg-gray-800 text-orange-400 px-1 rounded">$2</span>');
-    }
-    
-    return line;
-  };
 
   return (
     <div className="flex-1 flex flex-col bg-editor-background">
@@ -133,9 +113,9 @@ export function CodeEditor({ content, language, fileName }: CodeEditorProps) {
             }}
           >
             {lines.map((line, index) => (
-              <div key={index} className="h-6" dangerouslySetInnerHTML={{ 
-                __html: syntaxHighlight(line, index + 1) 
-              }} />
+              <div key={index} className="h-6">
+                {line}
+              </div>
             ))}
             
             {/* Mock cursor */}
